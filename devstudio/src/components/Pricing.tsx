@@ -17,7 +17,6 @@ const Pricing = () => {
   }>
 
   useEffect(() => {
-    // Анімація заголовку
     const headerEl = headerRef.current
     if (headerEl) {
       const obs = new IntersectionObserver(
@@ -32,9 +31,7 @@ const Pricing = () => {
       obs.observe(headerEl)
     }
 
-    // Анімація рядків акордеону по черзі
     const observers: IntersectionObserver[] = []
-
     itemRefs.current.forEach((el, index) => {
       if (!el) return
       const obs = new IntersectionObserver(
@@ -59,40 +56,50 @@ const Pricing = () => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  return (
-    <section className="pricing" id="pricing">
-      <div className="pricing__inner">
-        <div className="section-header reveal" ref={headerRef}>
-          <h2 className="section-title">{t('pricing.title')}</h2>
-          <p className="section-subtitle">{t('pricing.subtitle')}</p>
-        </div>
+  const handleOpen = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index)
+  }
 
-        <div className="pricing__accordion">
-          {plans.map((plan, index) => (
-            <div
-              key={index}
-              ref={(el) => { itemRefs.current[index] = el }}
-              className={`accordion-item ${openIndex === index ? 'accordion-item--open' : ''} ${popular[index] ? 'accordion-item--popular' : ''}`}
+return (
+  <section className="pricing" id="pricing">
+    <div className="pricing__inner">
+      <div className="section-header reveal" ref={headerRef}>
+        <h2 className="section-title">{t('pricing.title')}</h2>
+        <p className="section-subtitle">{t('pricing.subtitle')}</p>
+      </div>
+
+      <div className="pricing__accordion">
+        {plans.map((plan, index) => (
+          <div
+            key={index}
+            ref={(el) => { itemRefs.current[index] = el }}
+            className={[
+              'accordion-item',
+              openIndex === index ? 'accordion-item--open' : '',
+              popular[index] ? 'accordion-item--popular' : '',
+            ].join(' ')}
+          >
+            <button
+              className="accordion-item__header"
+              onClick={() => setOpenIndex(openIndex === index ? null : index)}
             >
-              <button
-                className="accordion-item__header"
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-              >
-                <div className="accordion-item__left">
-                  {popular[index] && (
-                    <span className="accordion-item__popular">★ Most Popular</span>
-                  )}
-                  <span className="accordion-item__title">{plan.title}</span>
-                </div>
-                <div className="accordion-item__right">
-                  <span className="accordion-item__price">{priceUsd[index]}</span>
-                  <span className="accordion-item__arrow">
-                    {openIndex === index ? '∧' : '∨'}
-                  </span>
-                </div>
-              </button>
+              <div className="accordion-item__left">
+                {popular[index] && (
+                  <span className="accordion-item__popular">★ Most Popular</span>
+                )}
+                <span className="accordion-item__title">{plan.title}</span>
+              </div>
+              <div className="accordion-item__right">
+                <span className="accordion-item__price">{priceUsd[index]}</span>
+                <span className={`accordion-item__arrow ${openIndex === index ? 'accordion-item__arrow--open' : ''}`}>
+                  ∨
+                </span>
+              </div>
+            </button>
 
-              {openIndex === index && (
+            {/* Плавне відкривання через grid-template-rows */}
+            <div className={`accordion-item__body-wrap ${openIndex === index ? 'accordion-item__body-wrap--open' : ''}`}>
+              <div className="accordion-item__body-inner">
                 <div className="accordion-item__body">
                   <ul className="accordion-item__features">
                     {plan.features.map((f) => (
@@ -111,13 +118,15 @@ const Pricing = () => {
                     </button>
                   </div>
                 </div>
-              )}
+              </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
-    </section>
-  )
+    </div>
+  </section>
+)
+
 }
 
 export default Pricing

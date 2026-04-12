@@ -394,7 +394,7 @@ button {
 /* PRICING */
 .pricing {
   padding: 100px 24px;
-  background: white;
+  background: var(--bg);
 }
 
 .pricing__inner {
@@ -408,25 +408,38 @@ button {
   gap: 12px;
 }
 
+/* Карточка */
 .accordion-item {
-  border: 1.5px solid var(--border);
+  border: 1.5px solid rgba(108, 59, 245, 0.15);
   border-radius: 16px;
+  background: rgba(108, 59, 245, 0.03);
+  
+  /* Виправляємо блимання: початковий стан */
+  opacity: 1 !important; /* Force opacity, щоб JS не скидав його */
   overflow: hidden;
-  background: white;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  
+  /* Тільки трансформація при ховері */
+  transition: 
+    border-color 0.3s ease, 
+    box-shadow 0.3s ease, 
+    background-color 0.3s ease,
+    transform 0.3s ease;
+  
+  /* Допомагає браузеру не "кліпати" */
+  backface-visibility: hidden;
+  transform: translateZ(0); 
 }
 
+/* ПІДСТРИБУВАННЯ ТІЛЬКИ ПРИ ХОВЕРІ */
 .accordion-item:hover {
-  border-color: #c4b5fd;
+  transform: translateY(-4px) translateZ(0);
+  border-color: rgba(108, 59, 245, 0.4);
+  box-shadow: 0 10px 25px rgba(108, 59, 245, 0.1);
 }
 
 .accordion-item--open {
-  border-color: var(--purple);
-  box-shadow: 0 4px 24px rgba(108, 59, 245, 0.1);
-}
-
-.accordion-item--popular.accordion-item--open {
-  background: linear-gradient(160deg, #f5f3ff, #eff6ff);
+  border-color: rgba(108, 59, 245, 0.6) !important;
+  background-color: rgba(108, 59, 245, 0.06) !important;
 }
 
 .accordion-item__header {
@@ -441,51 +454,39 @@ button {
   gap: 16px;
 }
 
-.accordion-item__left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.accordion-item__popular {
-  font-size: 0.72rem;
-  font-weight: 700;
-  background: var(--purple-gradient);
-  color: white;
-  padding: 3px 10px;
-  border-radius: 50px;
-}
-
 .accordion-item__title {
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: var(--dark);
-}
-
-.accordion-item__right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-shrink: 0;
+  color: var(--text-primary);
 }
 
 .accordion-item__price {
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: var(--purple);
-}
-
-.accordion-item__pln {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--gray);
+  color: var(--purple-light);
 }
 
 .accordion-item__arrow {
-  font-size: 0.9rem;
-  color: var(--gray);
-  width: 20px;
-  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.accordion-item__arrow--open {
+  transform: rotate(180deg);
+}
+
+/* АНІМАЦІЯ ВІДКРИТТЯ (Максимально стабільна) */
+.accordion-item__body-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s ease;
+}
+
+.accordion-item__body-wrap--open {
+  grid-template-rows: 1fr;
+}
+
+.accordion-item__body-inner {
+  min-height: 0;
 }
 
 .accordion-item__body {
@@ -493,38 +494,36 @@ button {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  animation: slideDown 0.2s ease;
+  /* Прибираємо окрему анімацію opacity для контенту, щоб не блимало */
 }
 
+/* ІНШІ ЕЛЕМЕНТИ */
 .accordion-item__features {
   list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .accordion-item__feature {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 0.9rem;
-  color: var(--dark);
+  font-size: 0.92rem;
 }
 
 .accordion-item__feature span {
-  color: #16a34a;
-  font-weight: 700;
+  color: #4ade80;
 }
 
 .accordion-item__footer {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-}
-
-.accordion-item__duration {
-  font-size: 0.85rem;
-  color: var(--gray);
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid rgba(108, 59, 245, 0.1);
 }
 
 /* PROCESS */
@@ -1006,92 +1005,103 @@ button {
 
 .contact__card {
   position: relative;
-  background: linear-gradient(135deg, #0d1b4e 0%, #0a0f2e 40%, #1a0d4e 100%);
-  border-radius: 28px;
-  padding: 100px 40px;
+  background: #080e24;
+  border-radius: 24px;
+  padding: 90px 40px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
-  cursor: default;
-  border: 1px solid rgba(255,255,255,0.06);
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-              box-shadow 0.4s ease;
+  border: 1px solid rgba(255,255,255,0.05);
 }
 
-.contact__card:hover {
-  transform: scale(1.01);
-  box-shadow: 0 32px 80px rgba(0,0,0,0.4);
-}
-
-/* Рухомий glow при hover */
-.contact__glow {
+/* Велике сяйво всередині картки */
+.contact__card-glow {
   position: absolute;
-  width: 600px;
-  height: 600px;
+  width: 700px;
+  height: 700px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(108,59,245,0.25) 0%, transparent 70%);
-  top: 50%;
+  bottom: -300px;
   left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  transition: opacity 0.4s ease;
+  transform: translateX(-50%);
   opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+  z-index: 0;
 }
 
-.contact__card:hover .contact__glow {
+.contact__card-glow--purple {
+  background: radial-gradient(circle,
+    rgba(139, 92, 246, 0.45) 0%,
+    rgba(109, 40, 217, 0.2) 40%,
+    transparent 70%);
   opacity: 1;
 }
 
-/* Декоративні зірки по кутах */
-.contact__star {
-  position: absolute;
-  font-size: 5rem;
-  opacity: 0.12;
-  color: #a0b4d0;
-  line-height: 1;
-  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
-              opacity 0.4s ease;
-  pointer-events: none;
-  filter: blur(0.5px);
+.contact__card-glow--blue {
+  background: radial-gradient(circle,
+    rgba(96, 165, 250, 0.4) 0%,
+    rgba(59, 130, 246, 0.15) 40%,
+    transparent 70%);
+  opacity: 1;
 }
 
-.contact__card:hover .contact__star {
-  opacity: 0.22;
+/* Зірки — початковий стан (закручені і невидимі) */
+.contact__star {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  filter: blur(4px);
+  transition: opacity 0.6s ease,
+              filter 0.6s ease,
+              transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .contact__star--tl {
-  top: -20px;
-  left: -20px;
-  transform: rotate(-15deg) scale(1.8);
-  font-size: 8rem;
+  width: 220px;
+  height: 220px;
+  top: -60px;
+  left: -60px;
+  /* Закручена вліво і зменшена */
+  transform: rotate(-120deg) scale(0.3) translate(-40px, -40px);
 }
 
 .contact__star--tr {
-  top: -10px;
-  right: -20px;
-  transform: rotate(20deg) scale(1.5);
-  font-size: 7rem;
+  width: 180px;
+  height: 180px;
+  top: -40px;
+  right: -40px;
+  /* Закручена вправо */
+  transform: rotate(120deg) scale(0.3) translate(40px, -40px);
 }
 
 .contact__star--br {
-  bottom: -20px;
-  right: 40px;
-  transform: rotate(-10deg) scale(2);
-  font-size: 6rem;
+  width: 150px;
+  height: 150px;
+  bottom: -30px;
+  right: 80px;
+  /* Закручена вниз */
+  transform: rotate(100deg) scale(0.3) translate(40px, 40px);
 }
 
-.contact__card:hover .contact__star--tl {
-  transform: rotate(-25deg) scale(2) translate(-8px, -8px);
+/* Активний стан — викручуються на місце */
+.contact__star--active.contact__star--tl {
+  opacity: 1;
+  filter: blur(0px) drop-shadow(0 4px 24px rgba(100,150,220,0.4));
+  transform: rotate(-10deg) scale(1) translate(0, 0);
 }
 
-.contact__card:hover .contact__star--tr {
-  transform: rotate(30deg) scale(1.8) translate(8px, -8px);
+.contact__star--active.contact__star--tr {
+  opacity: 0.9;
+  filter: blur(0px) drop-shadow(0 4px 20px rgba(100,150,220,0.35));
+  transform: rotate(15deg) scale(1) translate(0, 0);
 }
 
-.contact__card:hover .contact__star--br {
-  transform: rotate(-20deg) scale(2.2) translate(8px, 8px);
+.contact__star--active.contact__star--br {
+  opacity: 0.75;
+  filter: blur(0.5px) drop-shadow(0 4px 16px rgba(100,150,220,0.28));
+  transform: rotate(-8deg) scale(1) translate(0, 0);
 }
 
 .contact__content {
@@ -1112,16 +1122,17 @@ button {
 }
 
 .contact__title--italic {
+  display: block;
   font-style: italic;
   font-weight: 400;
   font-family: Georgia, 'Times New Roman', serif;
-  color: rgba(255,255,255,0.9);
+  color: rgba(255,255,255,0.88);
 }
 
 .contact__subtitle {
   font-size: 1rem;
-  color: rgba(255, 255, 255, 0.5);
-  max-width: 520px;
+  color: rgba(255, 255, 255, 0.45);
+  max-width: 500px;
   line-height: 1.7;
 }
 
@@ -1134,6 +1145,7 @@ button {
 }
 
 .contact__btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -1142,6 +1154,7 @@ button {
   font-size: 0.95rem;
   font-weight: 600;
   transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 1;
 }
 
 .contact__btn--light {
@@ -1151,38 +1164,26 @@ button {
 
 .contact__btn--light:hover {
   transform: translateY(-3px) scale(1.04);
-  box-shadow: 0 8px 24px rgba(255,255,255,0.2);
 }
 
 .contact__btn--dark {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .contact__btn--dark:hover {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.14);
   transform: translateY(-3px) scale(1.04);
 }
 
 @media (max-width: 768px) {
-  .contact__card {
-    padding: 60px 24px;
-  }
-
-  .contact__star--tl { font-size: 5rem; }
-  .contact__star--tr { font-size: 4rem; }
-  .contact__star--br { font-size: 4rem; }
-
-  .contact__actions {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .contact__btn {
-    justify-content: center;
-    width: 100%;
-  }
+  .contact__card { padding: 60px 24px; }
+  .contact__star--tl { width: 140px; height: 140px; top: -40px; left: -40px; }
+  .contact__star--tr { width: 110px; height: 110px; top: -25px; right: -25px; }
+  .contact__star--br { width: 90px; height: 90px; bottom: -20px; right: 40px; }
+  .contact__actions { flex-direction: column; width: 100%; }
+  .contact__btn { justify-content: center; width: 100%; }
 }
 
 /* FOOTER */
