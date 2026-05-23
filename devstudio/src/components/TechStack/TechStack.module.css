@@ -1,0 +1,201 @@
+.techstack {
+  padding: 32px 24px 96px;
+}
+
+.techstackInner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  gap: 24px;
+}
+
+.techstackLead {
+  display: grid;
+  gap: 1rem;
+  max-width: 760px;
+}
+
+.techstackTitle {
+  font-size: 3.25rem;
+  line-height: 0.98;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+.techstackSubtitle {
+  max-width: 48rem;
+  color: var(--slate);
+  font-size: 1rem;
+}
+
+.techstackStats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.techstackStat {
+  position: relative;
+  padding: 22px 22px 20px;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(18px);
+  transform-style: preserve-3d;
+  overflow: hidden;
+  transform: perspective(900px) translate3d(0, 0, 0);
+  transition: transform 260ms var(--motion-ui);
+  will-change: transform;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    inset 0 -18px 30px rgba(10, 16, 32, 0.03),
+    var(--shadow-md);
+}
+
+.techstackStat::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background:
+    radial-gradient(
+      240px circle at 50% 50%,
+      rgba(139, 92, 246, 0.16),
+      rgba(59, 130, 246, 0.08) 46%,
+      transparent 55%
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.techstackStat::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background:
+    radial-gradient(
+      180px circle at 50% 50%,
+      rgba(139, 92, 246, 0.9) 0%,
+      rgba(59, 130, 246, 0.75) 28%,
+      rgba(139, 92, 246, 0.08) 54%,
+      transparent 72%
+    ),
+    linear-gradient(135deg, rgba(139, 92, 246, 0.18), rgba(96, 165, 250, 0.08));
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.82;
+  transition: opacity 220ms var(--motion-ui), background 220ms var(--motion-ui);
+  pointer-events: none;
+}
+
+.techstackStat:hover {
+  transform: perspective(900px) translate3d(0, -4px, 0) rotateX(2deg);
+}
+
+.techstackStat:hover::after {
+  opacity: 1;
+  background:
+    radial-gradient(
+      220px circle at 50% 50%,
+      rgba(139, 92, 246, 1) 0%,
+      rgba(59, 130, 246, 0.88) 30%,
+      rgba(139, 92, 246, 0.12) 58%,
+      transparent 78%
+    ),
+    linear-gradient(135deg, rgba(139, 92, 246, 0.78), rgba(96, 165, 250, 0.6));
+}
+
+.techstackStat strong {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 1.7rem;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.techstackStat span {
+  position: relative;
+  z-index: 1;
+  color: var(--slate);
+  font-size: 0.9rem;
+}
+
+.techstackRail {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 18px 22px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.84);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(18px);
+}
+
+.techstackLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--slate-strong);
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.techstackList {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.techstackItem {
+  background: rgba(10, 16, 32, 0.04);
+  border: 1px solid rgba(16, 24, 40, 0.08);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--graphite);
+  transition:
+    transform 220ms var(--motion-ui),
+    border-color 220ms var(--motion-ui),
+    color 220ms var(--motion-ui);
+}
+
+.techstackItem:hover {
+  border-color: rgba(124, 92, 255, 0.24);
+  color: var(--violet);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 1024px) {
+  .techstackStats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .techstackRail {
+    flex-direction: column;
+    align-items: flex-start;
+    border-radius: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+  .techstack {
+    padding-bottom: 72px;
+  }
+
+  .techstackTitle {
+    font-size: 2.35rem;
+  }
+
+  .techstackStats {
+    grid-template-columns: 1fr;
+  }
+}

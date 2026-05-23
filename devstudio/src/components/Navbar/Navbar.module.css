@@ -1,0 +1,188 @@
+.navbar {
+  --nav-shrink: 0;
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-16px) scale(0.97);
+  max-width: 1100px;
+  border-radius: 999px;
+  z-index: 1000;
+  opacity: 0;
+  transition:
+    opacity 0.38s var(--motion-ui),
+    transform 0.38s var(--motion-ui);
+}
+
+.navbarReady.navbarVisible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.navbarReady.navbarHidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-14px) scale(0.98);
+}
+
+.navbarLight {
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.74);
+  box-shadow: var(--shadow-md);
+}
+
+.navbarDark {
+  background: rgba(9, 13, 26, 0.6);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.24);
+}
+
+.navbarInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(10px - 4px * var(--nav-shrink)) calc(14px - 6px * var(--nav-shrink));
+  gap: calc(12px - 8px * var(--nav-shrink));
+}
+
+.navbarLogo {
+  font-weight: 700;
+  flex-shrink: 0;
+  letter-spacing: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  opacity: 1;
+  font-size: calc(1.05rem - 0.08rem * var(--nav-shrink));
+}
+
+.navbarLight .navbarLogo {
+  color: #0f172a;
+}
+
+.navbarDark .navbarLogo {
+  color: white;
+}
+
+.langSwitcher {
+  display: flex;
+  align-items: center;
+  border-radius: 50px;
+  padding: 3px;
+  gap: 2px;
+  border: 1px solid transparent;
+  opacity: 1;
+}
+
+.navbarLight .langSwitcher {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+.navbarDark .langSwitcher {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.langBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s var(--motion-ui),
+    color 0.2s var(--motion-ui),
+    transform 0.2s var(--motion-ui);
+  white-space: nowrap;
+}
+
+.navbarLight .langBtn {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.navbarLight .langBtnActive {
+  background: white;
+  color: #0f172a;
+}
+
+.navbarLight .langBtn:hover:not(.langBtnActive) {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.navbarDark .langBtn {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.navbarDark .langBtnActive {
+  background: rgba(255, 255, 255, 0.14);
+  color: white;
+}
+
+.navbarDark .langBtn:hover:not(.langBtnActive) {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.langBtnFlag {
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.langBtnLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.navbarCompact .langBtnLabel {
+  display: none;
+}
+
+.navbarCta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  cursor: pointer;
+  flex-shrink: 0;
+  opacity: 1;
+  transition: transform 0.2s ease;
+}
+
+.navbarCta:hover {
+  transform: scale(1.1) !important;
+}
+
+.navbarLight .navbarCta {
+  background: #0a1020;
+  color: white;
+}
+
+.navbarDark .navbarCta {
+  background: white;
+  color: #0f172a;
+}
+
+.navbarCtaDesktop {
+  display: flex;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    top: 12px;
+    max-width: calc(100vw - 32px) !important;
+    width: calc(100vw - 32px) !important;
+  }
+
+  .navbarCtaDesktop {
+    display: none;
+  }
+}
