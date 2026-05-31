@@ -91,7 +91,7 @@ const Contact = () => {
         scrollTrigger: {
           trigger: section,
           start: 'top 78%',
-          once: true,
+          toggleActions: 'play none none reverse',
           fastScrollEnd: true,
         },
       })

@@ -11,10 +11,11 @@ export const useReveal = () => {
       ([entry]) => {
         if (entry.isIntersecting) {
           el.classList.add('revealed')
-          observer.disconnect()
+        } else {
+          el.classList.remove('revealed')
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.15, rootMargin: '0px 0px -8% 0px' }
     )
 
     observer.observe(el)

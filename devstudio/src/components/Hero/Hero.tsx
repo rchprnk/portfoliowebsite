@@ -29,6 +29,7 @@ const Hero = () => {
     value: string
   }>
   const frameSteps = t('hero.frameSteps', { returnObjects: true }) as string[]
+  const stack = (t('techstack.stack', { returnObjects: true }) as string[]).slice(0, 5)
   const titleLines = useMemo(() => [t('hero.title1'), t('hero.title2'), t('hero.title3')], [t])
 
   useLayoutEffect(() => {
@@ -118,6 +119,11 @@ const Hero = () => {
             </button>
           </div>
 
+          <div className={styles.heroAssurance}>
+            <span>{t('hero.frameLive')}</span>
+            <strong>{t('hero.frameCardTitle')}</strong>
+          </div>
+
           <div className={styles.heroTrust}>
             {trustItems.map((item) => (
               <span key={item} className={styles.heroTrustItem}>
@@ -170,7 +176,7 @@ const Hero = () => {
                 <i />
                 <i />
               </div>
-              <span className={styles.heroFrameUrl}>nexriv.studio/launch</span>
+              <span className={styles.heroFrameUrl}>NEXRIV DASHBOARD · SYSTEM HEALTH & METRICS</span>
               <span className={styles.heroFrameLive}>
                 <em aria-hidden="true" />
                 {t('hero.frameLive')}
@@ -178,59 +184,100 @@ const Hero = () => {
             </div>
 
             <div className={styles.heroFrameBody}>
-              <nav className={styles.heroFrameNav} aria-hidden="true">
-                <span className={styles.heroNavActive}>{t('hero.frameSidebar1')}</span>
-                <span>{t('hero.frameSidebar2')}</span>
-                <span>{t('hero.frameSidebar3')}</span>
-              </nav>
-
-              <div className={styles.heroFrameMain}>
-                <div className={styles.heroLeadCard}>
-                  <div className={styles.heroLeadGlow} aria-hidden="true" />
-                  <span>{t('hero.frameCardEyebrow')}</span>
-                  <strong>{t('hero.frameCardTitle')}</strong>
-                  <p>{t('hero.frameCardText')}</p>
+              <div className={styles.heroSystemTop}>
+                <div className={styles.heroCoreModule}>
+                  <div className={styles.heroCoreOrb} aria-hidden="true">
+                    <span />
+                    <i />
+                    <b>⚡</b>
+                  </div>
+                  <div>
+                    <span>{t('hero.frameLive')}</span>
+                    <strong>{t('hero.frameCardTitle')}</strong>
+                    <p>{t('hero.frameCardText')}</p>
+                  </div>
                 </div>
 
-                <div className={styles.heroMetricRow}>
-                  {frameMetrics.map((metric, index) => (
-                    <div key={metric.label} className={styles.heroMetric} style={{ animationDelay: `${0.12 + index * 0.1}s` }}>
-                      <span>{metric.label}</span>
-                      <strong>{metric.value}</strong>
-                    </div>
-                  ))}
+                <div className={styles.heroStatusGrid}>
+                  <div>
+                    <span>{t('hero.frameSidebar1')}</span>
+                    <strong>Confirmed</strong>
+                  </div>
+                  <div>
+                    <span>{t('hero.frameSidebar2')}</span>
+                    <strong>Up-to-date</strong>
+                  </div>
+                  <div>
+                    <span>{t('hero.frameSidebar3')}</span>
+                    <strong>Armed</strong>
+                  </div>
                 </div>
+              </div>
 
-                <div className={styles.heroChartPanel}>
-                  <div className={styles.heroChartMeta}>
+              <div className={styles.heroSystemMetrics}>
+                <div className={styles.heroPerformancePanel}>
+                  <div className={styles.heroPanelLabel}>
                     <span>{t('hero.frameChartLabel')}</span>
-                    <strong>{t('hero.frameChartValue')}</strong>
+                    <strong>{frameMetrics[0]?.value}</strong>
                   </div>
-                  <div className={styles.heroChartPlot} aria-hidden="true">
-                    <span style={{ height: '38%' }} />
-                    <span style={{ height: '72%' }} />
-                    <span style={{ height: '54%' }} />
-                    <span style={{ height: '88%' }} />
-                    <span style={{ height: '64%' }} />
-                  </div>
-                  <div className={styles.heroChartLine} aria-hidden="true" />
-                </div>
-
-                <div className={styles.heroTimeline}>
-                  <span>{t('hero.frameTimeline')}</span>
-                  <div className={styles.heroTimelineSteps}>
-                    {frameSteps.map((step, index) => (
-                      <span key={step} className={index === 0 ? styles.heroStepActive : ''}>
-                        {step}
-                      </span>
+                  <div className={styles.heroBarDeck} aria-hidden="true">
+                    {[34, 42, 38, 48, 58, 70, 82, 94].map((height, index) => (
+                      <i key={height} style={{ height: `${height}%`, animationDelay: `${index * 0.08}s` }} />
                     ))}
                   </div>
+                  <div className={styles.heroTrendLine} aria-hidden="true" />
                 </div>
 
-                <div className={styles.heroCodePanel}>
-                  <span>{t('hero.frameCodeLabel')}</span>
-                  <code>trust.system({'{'} clarity: 1, motion: 'cinematic' {'}'})</code>
+                <div className={styles.heroTrustGauge}>
+                  <div className={styles.heroPanelLabel}>
+                    <span>{frameMetrics[1]?.label}</span>
+                    <strong>{frameMetrics[1]?.value}/100</strong>
+                  </div>
+                  <div className={styles.heroGaugeArc} aria-hidden="true">
+                    <span />
+                    <i />
+                  </div>
+                  <div className={styles.heroGaugeLegend}>
+                    <span>Credibility</span>
+                    <span>Security</span>
+                    <span>Scale</span>
+                  </div>
                 </div>
+
+                <div className={styles.heroClarityPill}>
+                  <span>{frameMetrics[2]?.label}</span>
+                  <strong>{frameMetrics[2]?.value}</strong>
+                </div>
+              </div>
+
+              <div className={styles.heroPathway}>
+                <span>{t('hero.frameTimeline')}</span>
+                <div className={styles.heroPathwayTrack} aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                </div>
+                <div className={styles.heroPathwayNodes}>
+                  {frameSteps.map((step, index) => (
+                    <div key={step} className={index === 0 ? styles.heroPathwayActive : ''}>
+                      <strong>{step}</strong>
+                      <span>{stack[index] ?? stack[0]}</span>
+                    </div>
+                  ))}
+                  <div>
+                    <strong>Launch execution</strong>
+                    <span>{stack[3] ?? 'Motion'}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.heroSystemFooter}>
+                <div>
+                  <span>{panels[1]?.eyebrow}</span>
+                  <strong>{panels[1]?.title}</strong>
+                  <p>{panels[1]?.note}</p>
+                </div>
+                <div className={styles.heroFooterGlass} aria-hidden="true" />
               </div>
             </div>
           </div>

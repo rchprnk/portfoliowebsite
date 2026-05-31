@@ -19,16 +19,17 @@ const Pricing = () => {
         ([entry]) => {
           if (entry.isIntersecting) {
             headerEl.classList.add('revealed')
-            headerObserver?.disconnect()
+          } else {
+            headerEl.classList.remove('revealed')
           }
         },
-        { threshold: 0.2 }
+        { threshold: 0.2, rootMargin: '0px 0px -8% 0px' }
       )
       headerObserver.observe(headerEl)
     }
 
     const observers: IntersectionObserver[] = []
-    const timers: number[] = []
+    const timers = new Map<number, number>()
     itemRefs.current.forEach((el, index) => {
       if (!el) return
       const obs = new IntersectionObserver(
@@ -41,12 +42,24 @@ const Pricing = () => {
                 next.add(index)
                 return next
               })
+              timers.delete(index)
             }, index * 120)
-            timers.push(timer)
-            obs.disconnect()
+            timers.set(index, timer)
+          } else {
+            const timer = timers.get(index)
+            if (timer) {
+              window.clearTimeout(timer)
+              timers.delete(index)
+            }
+            setVisibleItems((current) => {
+              if (!current.has(index)) return current
+              const next = new Set(current)
+              next.delete(index)
+              return next
+            })
           }
         },
-        { threshold: 0.1 }
+        { threshold: 0.1, rootMargin: '0px 0px -8% 0px' }
       )
       obs.observe(el)
       observers.push(obs)

@@ -19,7 +19,7 @@ const Process = () => {
     if (!Array.isArray(steps)) return
 
     const observers: IntersectionObserver[] = []
-    const timers: number[] = []
+    const timers = new Map<number, number>()
 
     stepsRef.current.forEach((el, index) => {
       if (!el) return
@@ -29,13 +29,19 @@ const Process = () => {
           if (entry.isIntersecting) {
             const timer = window.setTimeout(() => {
               el.classList.add(styles.processStepVisible)
+              timers.delete(index)
             }, index * 150)
-            timers.push(timer)
-
-            observer.disconnect()
+            timers.set(index, timer)
+          } else {
+            const timer = timers.get(index)
+            if (timer) {
+              window.clearTimeout(timer)
+              timers.delete(index)
+            }
+            el.classList.remove(styles.processStepVisible)
           }
         },
-        { threshold: 0.3 }
+        { threshold: 0.3, rootMargin: '0px 0px -8% 0px' }
       )
 
       observer.observe(el)
